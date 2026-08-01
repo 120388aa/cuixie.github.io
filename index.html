@@ -1,20 +1,21 @@
 
-html_code = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta property="og:title" content="金满楼 · 升学宴邀请函">
+<meta property="og:description" content="诚挚邀请您参加升学宴，恭请光临，共襄盛举！">
+<meta property="og:image" content="https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=1200&q=80">
 <title>金满楼 · 升学宴邀请函</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Noto Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+    font-family: 'PingFang SC', 'Microsoft YaHei', serif;
     background: #0a0e1a;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
   }
-
-  /* ===== 信封封面 ===== */
   #envelope-screen {
     position: fixed; inset: 0;
     display: flex; flex-direction: column;
@@ -27,7 +28,6 @@ html_code = '''<!DOCTYPE html>
     opacity: 0; transform: scale(1.1);
     pointer-events: none;
   }
-
   .envelope-wrap {
     position: relative;
     width: 320px; height: 220px;
@@ -40,7 +40,6 @@ html_code = '''<!DOCTYPE html>
     0%,100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
   }
-
   .env-body {
     position: absolute; bottom: 0;
     width: 100%; height: 70%;
@@ -58,4 +57,348 @@ html_code = '''<!DOCTYPE html>
     transition: transform .8s cubic-bezier(.4,0,.2,1);
     box-shadow: inset 0 -2px 10px rgba(0,0,0,.3);
   }
-  .envelope-wrap.open .env-flap { transform: rotate
+  .envelope-wrap.open .env-flap { transform: rotateX(180deg); }
+  .env-seal {
+    position: absolute; top: 42%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c9a84c, #8b6914, #c9a84c);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(201,168,76,.4), inset 0 1px 2px rgba(255,255,255,.3);
+    z-index: 5;
+    transition: all .5s ease;
+  }
+  .env-seal::before {
+    content: '囍';
+    font-size: 28px; color: #1a1f3a;
+    font-weight: 900;
+  }
+  .envelope-wrap.open .env-seal {
+    opacity: 0; transform: translate(-50%, -50%) scale(0);
+  }
+  .env-glow {
+    position: absolute; inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(100,180,255,.15) 0%, transparent 70%);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%,100% { transform: scale(1); opacity: .6; }
+    50% { transform: scale(1.2); opacity: 1; }
+  }
+  .env-label {
+    margin-top: 50px;
+    text-align: center;
+    color: #c9d4e8;
+    font-size: 18px;
+    letter-spacing: 8px;
+    opacity: .7;
+    animation: breathe 2s ease-in-out infinite;
+  }
+  .env-label span {
+    display: block;
+    font-size: 13px;
+    color: #7a8bb0;
+    margin-top: 8px;
+    letter-spacing: 4px;
+  }
+  @keyframes breathe {
+    0%,100% { opacity: .5; }
+    50% { opacity: .9; }
+  }
+  .stars {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    opacity: var(--op);
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: var(--op); transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+  #main-content {
+    position: fixed; inset: 0;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 1s ease .3s;
+    z-index: 1;
+  }
+  #main-content.visible { opacity: 1; }
+  .invitation {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .inv-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #0d1b2a 0%, #1b263b 30%, #0a0e1a 60%, #141b33 100%);
+  }
+  .chandelier {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 500px;
+    opacity: .6;
+  }
+  .chandelier-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(100, 180, 255, .3);
+    box-shadow: 0 0 30px rgba(100, 180, 255, .2), inset 0 0 30px rgba(100, 180, 255, .1);
+  }
+  .chandelier-ring:nth-child(1) { width: 400px; height: 400px; top: 50px; left: 50px; }
+  .chandelier-ring:nth-child(2) { width: 300px; height: 300px; top: 100px; left: 100px; }
+  .chandelier-ring:nth-child(3) { width: 200px; height: 200px; top: 150px; left: 150px; }
+  .chandelier-ring:nth-child(4) { width: 100px; height: 100px; top: 200px; left: 200px; }
+  .crystal {
+    position: absolute;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(100,200,255,.8), transparent);
+    animation: sway 3s ease-in-out infinite;
+  }
+  @keyframes sway {
+    0%,100% { transform: rotate(-2deg); opacity: .6; }
+    50% { transform: rotate(2deg); opacity: 1; }
+  }
+  .inv-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(10,14,26,.2) 0%, rgba(10,14,26,.6) 100%);
+  }
+  .inv-vignette {
+    position: absolute; inset: 0;
+    box-shadow: inset 0 80px 100px rgba(10,14,26,.6), inset 0 -80px 100px rgba(10,14,26,.6);
+  }
+  .inv-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 30px;
+    max-width: 600px;
+  }
+  .logo-area {
+    margin-bottom: 40px;
+    animation: fadeInDown 1s ease .5s both;
+  }
+  .logo-circle {
+    width: 90px; height: 90px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    border: 2px solid #c9a84c;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(201,168,76,.1), rgba(201,168,76,.05));
+    box-shadow: 0 0 30px rgba(201,168,76,.2);
+  }
+  .logo-circle span {
+    font-size: 42px;
+    color: #c9a84c;
+    font-weight: 900;
+  }
+  .logo-text {
+    color: #c9a84c;
+    font-size: 14px;
+    letter-spacing: 6px;
+    font-weight: 300;
+  }
+  .logo-sub {
+    color: #7a8bb0;
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-top: 4px;
+  }
+  .cover-title {
+    font-size: 52px;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 12px;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 20px rgba(0,0,0,.5);
+    animation: fadeInUp 1s ease .8s both;
+  }
+  .cover-eng {
+    font-size: 13px;
+    color: #c9a84c;
+    letter-spacing: 8px;
+    margin-bottom: 50px;
+    font-weight: 300;
+    animation: fadeInUp 1s ease 1s both;
+  }
+  .deco-line {
+    width: 120px; height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+    margin: 0 auto 40px;
+    animation: fadeIn 1s ease 1.2s both;
+  }
+  .cover-info {
+    color: #c9d4e8;
+    font-size: 18px;
+    line-height: 2.2;
+    letter-spacing: 2px;
+    animation: fadeInUp 1s ease 1.4s both;
+  }
+  .cover-info .highlight {
+    color: #c9a84c;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .cover-info .date-big {
+    font-size: 28px;
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 4px;
+  }
+  .venue-card {
+    margin-top: 40px;
+    padding: 20px 40px;
+    border: 1px solid rgba(201,168,76,.3);
+    border-radius: 8px;
+    background: rgba(255,255,255,.03);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 1s ease 1.6s both;
+  }
+  .venue-card .label {
+    color: #c9a84c;
+    font-size: 13px;
+    letter-spacing: 6px;
+    margin-bottom: 8px;
+  }
+  .venue-card .name {
+    color: #ffffff;
+    font-size: 24px;
+    letter-spacing: 8px;
+    font-weight: 500;
+  }
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @media (max-width: 480px) {
+    .cover-title { font-size: 36px; letter-spacing: 8px; }
+    .envelope-wrap { width: 260px; height: 180px; }
+    .chandelier { width: 350px; height: 350px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div id="envelope-screen">
+  <div class="envelope-wrap" id="envelope" onclick="openEnvelope()">
+    <div class="env-glow"></div>
+    <div class="env-flap"></div>
+    <div class="env-seal"></div>
+    <div class="env-body"></div>
+  </div>
+  <div class="env-label">
+    点击开启邀请函
+    <span>金满楼 · 旗舰店</span>
+  </div>
+</div>
+
+<div id="main-content">
+  <div class="invitation">
+    <div class="inv-bg"></div>
+    <div class="chandelier">
+      <div class="chandelier-ring"></div>
+      <div class="chandelier-ring"></div>
+      <div class="chandelier-ring"></div>
+      <div class="chandelier-ring"></div>
+      <div class="crystal" style="top:200px;left:100px;height:80px;animation-delay:0s;"></div>
+      <div class="crystal" style="top:220px;left:150px;height:100px;animation-delay:.5s;"></div>
+      <div class="crystal" style="top:200px;left:200px;height:90px;animation-delay:1s;"></div>
+      <div class="crystal" style="top:220px;left:250px;height:110px;animation-delay:1.5s;"></div>
+      <div class="crystal" style="top:200px;left:300px;height:85px;animation-delay:2s;"></div>
+      <div class="crystal" style="top:220px;left:350px;height:95px;animation-delay:2.5s;"></div>
+      <div class="crystal" style="top:250px;left:80px;height:60px;animation-delay:.3s;"></div>
+      <div class="crystal" style="top:260px;left:130px;height:70px;animation-delay:.8s;"></div>
+      <div class="crystal" style="top:250px;left:180px;height:65px;animation-delay:1.3s;"></div>
+      <div class="crystal" style="top:260px;left:230px;height:75px;animation-delay:1.8s;"></div>
+      <div class="crystal" style="top:250px;left:280px;height:60px;animation-delay:2.3s;"></div>
+      <div class="crystal" style="top:260px;left:330px;height:70px;animation-delay:.2s;"></div>
+      <div class="crystal" style="top:260px;left:380px;height:55px;animation-delay:.7s;"></div>
+    </div>
+    <div class="inv-overlay"></div>
+    <div class="inv-vignette"></div>
+    <div class="inv-content">
+      <div class="logo-area">
+        <div class="logo-circle"><span>囍</span></div>
+        <div class="logo-text">金满楼</div>
+        <div class="logo-sub">JINMANLOU FLAGSHIP STORE</div>
+      </div>
+      <h1 class="cover-title">升学宴邀请函</h1>
+      <p class="cover-eng">C O L L E G E &nbsp; E N T R A N C E &nbsp; B A N Q U E T</p >
+      <div class="deco-line"></div>
+      <div class="cover-info">
+        <p>谨定于</p >
+        <p class="date-big">2026年8月16日</p >
+        <p class="highlight">星期日 · 农历七月初四</p >
+        <p style="margin-top:20px">为 崔谢子涵 举办升学宴</p >
+        <p>恭请光临 · 共襄盛举</p >
+      </div>
+      <div class="venue-card">
+        <div class="label">宴 会 地 点</div>
+        <div class="name">维纳斯宴会厅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="bgm" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-piano-100-bpm-121529.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.setProperty('--dur', (2 + Math.random() * 3) + 's');
+    star.style.setProperty('--op', (0.2 + Math.random() * 0.6));
+    star.style.animationDelay = Math.random() * 3 + 's';
+    starsContainer.appendChild(star);
+  }
+
+  function openEnvelope() {
+    const env = document.getElementById('envelope');
+    const screen = document.getElementById('envelope-screen');
+    const main = document.getElementById('main-content');
+    const bgm = document.getElementById('bgm');
+
+    env.classList.add('open');
+    bgm.volume = 0.4;
+    bgm.play().catch(() => {});
+
+    setTimeout(() => {
+      screen.classList.add('hidden');
+      main.classList.add('visible');
+    }, 600);
+  }
+</script>
+
+</body>
+</html>
